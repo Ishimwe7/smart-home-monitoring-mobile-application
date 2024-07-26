@@ -1,70 +1,137 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+// // import React from 'react';
+// // import { NavigationContainer } from '@react-navigation/native';
+// // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// // import { Provider as PaperProvider } from 'react-native-paper';
+// // import { Ionicons } from '@expo/vector-icons';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+// // import Dashboard from '../../src/screens/Dashboard';
+// // import Settings from '../../src/screens/Settings';
+// // import { SensorProvider } from '../../src/contexts/sensorContext';
 
-export default function HomeScreen() {
+// // const Tab = createBottomTabNavigator();
+
+// // export default function App() {
+// //   return (
+// //     <PaperProvider>
+// //       <SensorProvider>
+// //         <NavigationContainer>
+// //           <Tab.Navigator
+// //             screenOptions={({ route }) => ({
+// //               tabBarIcon: ({ focused, color, size }) => {
+// //                 let iconName;
+// //                 if (route.name === 'Dashboard') {
+// //                   iconName = focused ? 'home' : 'home-outline';
+// //                 } else if (route.name === 'Settings') {
+// //                   iconName = focused ? 'settings' : 'settings-outline';
+// //                 }
+// //                 return <Ionicons name={iconName} size={size} color={color} />;
+// //               },
+// //             })}
+// //           >
+// //             <Tab.Screen name="Dashboard" component={Dashboard} />
+// //             <Tab.Screen name="Settings" component={Settings} />
+// //           </Tab.Navigator>
+// //         </NavigationContainer>
+// //       </SensorProvider>
+// //     </PaperProvider>
+// //   );
+// // }
+
+// import React from 'react';
+// import { NavigationContainer } from '@react-navigation/native';
+// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import { Provider as PaperProvider } from 'react-native-paper';
+// import { Ionicons } from '@expo/vector-icons';
+
+// import Dashboard from '../../src/screens/Dashboard';
+// import Settings from '../../src/screens/Settings';
+// import { SensorProvider } from '../../src/contexts/sensorContext';
+
+// const Tab = createBottomTabNavigator();
+
+// type IconName = React.ComponentProps<typeof Ionicons>['name'];
+
+// export default function App() {
+//   return (
+//     <PaperProvider>
+//       <SensorProvider>
+//         <NavigationContainer>
+//           <Tab.Navigator
+//             screenOptions={({ route }) => ({
+//               tabBarIcon: ({ focused, color, size }) => {
+//                 let iconName: IconName;
+//                 if (route.name === 'Dashboard') {
+//                   iconName = focused ? 'home' : 'home-outline';
+//                 } else if (route.name === 'Settings') {
+//                   iconName = focused ? 'settings' : 'settings-outline';
+//                 } else {
+//                   iconName = 'help-outline'; // Default icon
+//                 }
+//                 return <Ionicons name={iconName} size={size} color={color} />;
+//               },
+//             })}
+//           >
+//             <Tab.Screen name="Dashboard" component={Dashboard} />
+//             <Tab.Screen name="Settings" component={Settings} />
+//           </Tab.Navigator>
+//         </NavigationContainer>
+//       </SensorProvider>
+//     </PaperProvider>
+//   );
+// }
+
+import React from 'react';
+import { Provider as PaperProvider } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+import { SensorProvider } from '../../src/contexts/sensorContext';
+import { TabParamList } from '@/components/types';
+import Dashboard from '@/src/screens/Dashboard';
+import Settings from '@/src/screens/Settings';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+type IconName = React.ComponentProps<typeof Ionicons>['name'];
+const Tab = createBottomTabNavigator<TabParamList>();
+export default function AppLayout() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <PaperProvider>
+      <SensorProvider>
+        <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName: string;
+
+          if (route.name === 'Dashboard') {
+            iconName = focused ? 'home' : 'home-outline';
+          }else if (route.name === 'Settings') {
+            iconName = focused ? 'settings-outline' : 'settings-outline';
+          }
+          else {
+            iconName = 'alert';
+          }
+
+          return <Icon name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+        headerTitle:'',
+      })}
+    >
+      <Tab.Screen
+        name="Dashboard"
+        component={Dashboard}
+        options={{ tabBarLabel: 'Dashboard' }}
+      >
+      </Tab.Screen>
+       <Tab.Screen
+        name="Settings"
+        component={Settings}
+        options={{ tabBarLabel: 'Settings' }}
+      >
+      </Tab.Screen>
+    </Tab.Navigator>
+      </SensorProvider>
+    </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
